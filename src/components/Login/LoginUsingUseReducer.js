@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -22,9 +22,11 @@ const passwordReducer = (state, action) => {
     return { value: state.value, isValid: state.value.trim().length > 6 };
   }
   return { value: "", isValid: false };
-};
+}
 
-const Login = (props) => {
+
+
+const ogin = (props) => {
   // const [enteredEmail, setEnteredEmail] = useState("");
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState("");
@@ -41,29 +43,30 @@ const Login = (props) => {
     isValid: null,
   });
 
+  // useEffect(() => {
+  //   const identifier = setTimeout(() =>{
+  //     setFormIsValid(
+  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
+  //     );
+  //   },500)
 
-  const { isValid: emailIsValid } = emailState;
-  const { isValid: passwordIsValid } = passwordState;
-
-
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      setFormIsValid(emailIsValid && passwordIsValid);
-    }, 500);
-
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [emailIsValid, passwordIsValid]);
+  //   return () => {
+  //     clearTimeout(identifier);
+  //   };
+  // }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-    // setFormIsValid(event.target.value.includes("@") && passwordState.isValid);
+    setFormIsValid(
+      event.target.value.includes("@") && passwordState.isValid
+    );
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
-    // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+    setFormIsValid(
+      emailState.isValid && event.target.value.trim().length > 6
+      );
   };
 
   function validateEmailHandler() {
@@ -120,4 +123,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default ogin;
