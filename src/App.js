@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-
+import AuthContext from "./components/Store/auth-context";
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 
 function App() {
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -14,12 +13,12 @@ function App() {
     if (storedUserLoggedInData === "1") {
       setIsLoggedIn(true);
     }
-   }, []);  //this function runs each time when we 
+  }, []); //this function runs each time when we
   //         reload because dependencies get changed
-  //         Hence this inLoggedIn variable gets that 
-  //         True value each time. once we updated 
-  //         LocalStorage Var to 1. that means 
-  //         logged in once. 
+  //         Hence this inLoggedIn variable gets that
+  //         True value each time. once we updated
+  //         LocalStorage Var to 1. that means
+  //         logged in once.
 
   const loginHandler = (email, password) => {
     // We should of course check email and password
@@ -34,13 +33,17 @@ function App() {
   };
 
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: isLoggedIn,
+      }}
+    >
+      <MainHeader  onLogout={logoutHandler} />
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>
-    </React.Fragment>
+    </AuthContext.Provider>
   );
 }
 
